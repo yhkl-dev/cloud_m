@@ -1,10 +1,11 @@
 import os
-
 from configparser import ConfigParser
-from config.singleton import SingletonDecorator
+
 from attrdict import AttrDict
 
-CONFIG_FILE_NAME = "source.ini"
+from config.singleton import SingletonDecorator
+
+CONFIG_FILE_NAME = "config.ini"
 
 CONFIG_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 CONFIG_FILE_NAME)
@@ -51,4 +52,15 @@ class GlobalConfig:
             "host":
             self.db_config["POSTGRES"]["host"],
         }
+
         return AttrDict(config_dict)
+
+    @property
+    def postgres_dict(self):
+        return {
+            'user': self.db_config["POSTGRES"]["user"],
+            'password': self.db_config["POSTGRES"]["password"],
+            'host': self.db_config["POSTGRES"]["host"],
+            'port': self.db_config["POSTGRES"]["port"],
+            'database': self.db_config["POSTGRES"]["dbname"]
+        }
